@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @author ryanwang
  * @date 2019-09-05
  */
+//@Data提供类所有属性的get和set方法
 @Data
 public class ResetPasswordParam {
 

@@ -40,14 +40,17 @@ public class CacheLockInterceptor {
     @Around("@annotation(run.halo.app.cache.lock.CacheLock)")
     public Object interceptCacheLock(ProceedingJoinPoint joinPoint) throws Throwable {
         // Get method signature
+//        获取被注解的方法
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         log.debug("Starting locking: [{}]", methodSignature.toString());
 
         // Get cache lock
+//        获取cachelock注解实例
         CacheLock cacheLock = methodSignature.getMethod().getAnnotation(CacheLock.class);
 
         // Build cache lock key
+//        生成缓存key
         String cacheLockKey = buildCacheLockKey(cacheLock, joinPoint);
 
         log.debug("Built lock key: [{}]", cacheLockKey);

@@ -37,6 +37,7 @@ import static run.halo.app.model.support.HaloConst.ADMIN_TOKEN_QUERY_NAME;
  */
 @Slf4j
 @Component
+//说明SpringIOC中bean的执行顺序的优先级
 @Order(1)
 public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
 
@@ -53,7 +54,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
         this.userService = userService;
         this.haloProperties = haloProperties;
-
+//        将这些路径访问交由此类处理
         addUrlPatterns("/api/admin/**", "/api/content/comments");
 
         addExcludeUrlPatterns(

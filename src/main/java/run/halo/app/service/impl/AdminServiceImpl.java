@@ -63,6 +63,7 @@ import static run.halo.app.model.support.HaloConst.*;
  * @date 2019-04-29
  */
 @Slf4j
+//@Service注解声明当前类是bean，且id是adminServiceImpl
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -128,6 +129,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @NonNull
     public User authenticate(@NonNull LoginParam loginParam) {
+//        如果是空的，则自动结束程序并输出信息
         Assert.notNull(loginParam, "Login param must not be null");
 
         String username = loginParam.getUsername();
@@ -166,6 +168,7 @@ public class AdminServiceImpl implements AdminService {
         final User user = this.authenticate(loginParam);
 
         // check authCode
+//        MFA表示multi factor authentication，即多点验证，
         if (MFAType.useMFA(user.getMfaType())) {
             if (StrUtil.isBlank(loginParam.getAuthcode())) {
                 throw new BadRequestException("请输入两步验证码");

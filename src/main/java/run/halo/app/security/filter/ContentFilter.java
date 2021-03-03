@@ -30,10 +30,14 @@ public class ContentFilter extends AbstractAuthenticationFilter {
             AbstractStringCacheStore cacheStore,
             OneTimeTokenService oneTimeTokenService) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
-
+//将所有路径交给过滤器来管理
         addUrlPatterns("/**");
-
+//      adminPattern:/admin/**
         String adminPattern = HaloUtils.ensureBoth(haloProperties.getAdminPath(), "/") + "**";
+//        System.out.println("-----------------------------------------------------");
+//        System.out.println(adminPattern);
+//        System.out.println("-----------------------------------------------------");
+//        需要直接放行的路径
         addExcludeUrlPatterns(
                 adminPattern,
                 "/api/**",

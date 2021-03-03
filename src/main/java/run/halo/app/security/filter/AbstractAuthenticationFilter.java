@@ -39,6 +39,7 @@ import static run.halo.app.model.support.HaloConst.ONE_TIME_TOKEN_QUERY_NAME;
  * @date 19-4-16
  */
 @Slf4j
+//继承OncePerRequestFilter，确保因此请求只经过一次filter
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
 
     protected final AntPathMatcher antPathMatcher;

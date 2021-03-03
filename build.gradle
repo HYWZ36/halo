@@ -25,6 +25,7 @@ repositories {
 
 configurations {
     implementation {
+//        排除内置的tomcat容器
         exclude module: "spring-boot-starter-tomcat"
         exclude module: "slf4j-log4j12"
         exclude module: 'junit'

@@ -45,7 +45,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
             ObjectMapper objectMapper) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
         this.optionService = optionService;
-
+//处理路径/api/content/**
         addUrlPatterns("/api/content/**");
 
         addExcludeUrlPatterns(
@@ -57,13 +57,16 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         // set failure handler
         DefaultAuthenticationFailureHandler failureHandler = new DefaultAuthenticationFailureHandler();
         failureHandler.setProductionEnv(haloProperties.isProductionEnv());
+//        怎么发现objectMapper是在haloconfiguration中注入的，应该是在调试中得知的吧
         failureHandler.setObjectMapper(objectMapper);
         setFailureHandler(failureHandler);
     }
 
     @Override
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        如果没有开启身份验证模式
         if (!haloProperties.isAuthEnabled()) {
+//            放行所有api请求
             filterChain.doFilter(request, response);
             return;
         }
@@ -76,6 +79,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get access key
+//        从request中获取api_access_key
         String accessKey = getTokenFromRequest(request);
 
         if (StringUtils.isBlank(accessKey)) {
@@ -84,18 +88,19 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get access key from option
+//        从optionservice中获取api_access_key
         Optional<String> optionalAccessKey = optionService.getByProperty(ApiProperties.API_ACCESS_KEY, String.class);
 
         if (!optionalAccessKey.isPresent()) {
             // If the access key is not set
             throw new AuthenticationException("API access key hasn't been set by blogger");
         }
-
+//        匹配秘钥，不相同就抛出异常
         if (!StringUtils.equals(accessKey, optionalAccessKey.get())) {
             // If the access key is mismatch
             throw new AuthenticationException("API access key is mismatch").setErrorData(accessKey);
         }
-
+//相同就放行访问请求
         // Do filter
         filterChain.doFilter(request, response);
     }

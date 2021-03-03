@@ -33,6 +33,7 @@ public interface AdminService {
      * @param loginParam login param must not be null
      * @return User
      */
+//    表示不可以为空
     @NonNull
     User authenticate(@NonNull LoginParam loginParam);
 
@@ -43,6 +44,7 @@ public interface AdminService {
      * @return User
      */
     @NonNull
+//    检测验证码
     AuthToken authCodeCheck(@NonNull LoginParam loginParam);
 
     /**
